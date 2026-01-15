@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capaciteitsplanning</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Login Pagina -->
+    <div id="loginPage" class="page">
+        <div class="container-fluid vh-100 d-flex align-items-center justify-content-center">
+            <div class="card shadow-lg" style="width: 400px;">
+                <div class="card-body p-5">
+                    <h2 class="text-center mb-4">Capaciteitsplanning</h2>
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Gebruikersnaam</label>
+                            <input type="text" class="form-control" id="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Wachtwoord</label>
+                            <input type="password" class="form-control" id="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Inloggen</button>
+                    </form>
+                    <div id="loginError" class="alert alert-danger mt-3 d-none"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard / Maandoverzicht -->
+    <div id="dashboardPage" class="page d-none">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Capaciteitsplanning</a>
+                <div class="navbar-nav ms-auto">
+                    <span class="navbar-text me-3" id="userRole"></span>
+                    <button class="btn btn-outline-light btn-sm" onclick="logout()">Uitloggen</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid mt-4">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h2>Capaciteitsplanning</h2>
+                </div>
+                <div class="col-md-6 text-end">
+                    <select id="monthSelect" class="form-select d-inline-block" style="width: auto;">
+                        <option value="1">Januari</option>
+                        <option value="2">Februari</option>
+                        <option value="3">Maart</option>
+                        <option value="4">April</option>
+                        <option value="5">Mei</option>
+                        <option value="6">Juni</option>
+                        <option value="7">Juli</option>
+                        <option value="8">Augustus</option>
+                        <option value="9">September</option>
+                        <option value="10">Oktober</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                    <select id="yearSelect" class="form-select d-inline-block" style="width: auto;">
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="capacityTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Project</th>
+                                    <th class="text-center">Jan</th>
+                                    <th class="text-center">Feb</th>
+                                    <th class="text-center">Mrt</th>
+                                    <th class="text-center">Apr</th>
+                                    <th class="text-center">Mei</th>
+                                    <th class="text-center">Jun</th>
+                                    <th class="text-center">Jul</th>
+                                    <th class="text-center">Aug</th>
+                                    <th class="text-center">Sep</th>
+                                    <th class="text-center">Okt</th>
+                                    <th class="text-center">Nov</th>
+                                    <th class="text-center">Dec</th>
+                                    <th class="text-center">Totaal</th>
+                                </tr>
+                            </thead>
+                            <tbody id="projectRows">
+                                <!-- Projecten worden hier dynamisch toegevoegd -->
+                            </tbody>
+                            <tfoot class="table-secondary">
+                                <tr>
+                                    <td><strong>Totaal ingeplande dagen</strong></td>
+                                    <td class="text-center" id="totalJan">0</td>
+                                    <td class="text-center" id="totalFeb">0</td>
+                                    <td class="text-center" id="totalMar">0</td>
+                                    <td class="text-center" id="totalApr">0</td>
+                                    <td class="text-center" id="totalMay">0</td>
+                                    <td class="text-center" id="totalJun">0</td>
+                                    <td class="text-center" id="totalJul">0</td>
+                                    <td class="text-center" id="totalAug">0</td>
+                                    <td class="text-center" id="totalSep">0</td>
+                                    <td class="text-center" id="totalOct">0</td>
+                                    <td class="text-center" id="totalNov">0</td>
+                                    <td class="text-center" id="totalDec">0</td>
+                                    <td class="text-center" id="grandTotal">0</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Totaal beschikbare werkdagen</strong></td>
+                                    <td class="text-center">22</td>
+                                    <td class="text-center">20</td>
+                                    <td class="text-center">21</td>
+                                    <td class="text-center">22</td>
+                                    <td class="text-center">20</td>
+                                    <td class="text-center">22</td>
+                                    <td class="text-center">21</td>
+                                    <td class="text-center">22</td>
+                                    <td class="text-center">21</td>
+                                    <td class="text-center">23</td>
+                                    <td class="text-center">21</td>
+                                    <td class="text-center">20</td>
+                                    <td class="text-center">255</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Aantal feestdagen</strong></td>
+                                    <td class="text-center">2</td>
+                                    <td class="text-center">0</td>
+                                    <td class="text-center">2</td>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">2</td>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">2</td>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">0</td>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">2</td>
+                                    <td class="text-center">2</td>
+                                    <td class="text-center">16</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-outline-primary" onclick="showProjectManagement()">Projectbeheer</button>
+                        <button class="btn btn-outline-primary" onclick="showForecastPage()">Prognose</button>
+                        <button class="btn btn-outline-primary" onclick="showConfigPage()">Configuratie</button>
+                        <button class="btn btn-outline-primary" onclick="showReportPage()">Rapportage</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Detail Pagina -->
+    <div id="projectDetailPage" class="page d-none">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Project Details</a>
+                <div class="navbar-nav ms-auto">
+                    <button class="btn btn-outline-light btn-sm" onclick="showDashboard()">Terug</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid mt-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 id="projectName">Project Naam</h3>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p><strong>Factureerbaar:</strong> <span id="projectBillable">Ja</span></p>
+                            <p><strong>Status:</strong> <span id="projectStatus">Actief</span></p>
+                        </div>
+                        <div class="col-md-4">
+                            <p><strong>Projectmanager:</strong> <span id="projectManager">-</span></p>
+                            <button class="btn btn-sm btn-outline-secondary mt-2" onclick="editProjectManager()" id="editProjectManagerBtn">Projectmanager wijzigen</button>
+                        </div>
+                        <div class="col-md-4">
+                            <p><strong>Projectbeschrijving:</strong></p>
+                            <p id="projectDescription">Beschrijving van het project</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4>Medewerkers</h4>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Medewerker</th>
+                                    <th class="text-center">Ingeplande dagen</th>
+                                    <th>Opmerking</th>
+                                    <th class="text-center">Acties</th>
+                                </tr>
+                            </thead>
+                            <tbody id="employeeRows">
+                                <!-- Medewerkers worden hier dynamisch toegevoegd -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <button class="btn btn-primary mt-3" onclick="addEmployee()">Medewerker toevoegen</button>
+                    <button class="btn btn-secondary mt-3" onclick="showDashboard()">Terug naar dashboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projectbeheer Pagina -->
+    <div id="projectManagementPage" class="page d-none">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Projectbeheer</a>
+                <div class="navbar-nav ms-auto">
+                    <button class="btn btn-outline-light btn-sm" onclick="showDashboard()">Terug</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid mt-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3>Projecten</h3>
+                        <button class="btn btn-primary" onclick="addProject()">Nieuw project toevoegen</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Projectnaam</th>
+                                    <th class="text-center">Projectmanager</th>
+                                    <th class="text-center">Factureerbaar</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Acties</th>
+                                </tr>
+                            </thead>
+                            <tbody id="projectManagementRows">
+                                <!-- Projecten worden hier dynamisch toegevoegd -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prognose & Factureerbaarheid Pagina -->
+    <div id="forecastPage" class="page d-none">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Factureerbare prognose</a>
+                <div class="navbar-nav ms-auto">
+                    <button class="btn btn-outline-light btn-sm" onclick="showDashboard()">Terug</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid mt-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Factureerbare prognose per maand</h3>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Maand</th>
+                                    <th class="text-center">Prognose factureerbare dagen</th>
+                                    <th class="text-center">Huidig ingepland</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Acties</th>
+                                </tr>
+                            </thead>
+                            <tbody id="forecastRows">
+                                <!-- Prognoses worden hier dynamisch toegevoegd -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <button class="btn btn-primary mt-3" onclick="saveForecasts()">Prognoses opslaan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Configuratie Pagina -->
+    <div id="configPage" class="page d-none">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Configuratie</a>
+                <div class="navbar-nav ms-auto">
+                    <button class="btn btn-outline-light btn-sm" onclick="showDashboard()">Terug</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid mt-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Instellingen</h3>
+                    <form id="configForm">
+                        <div class="mb-3">
+                            <label for="orangeThreshold" class="form-label">Aantal dagen overschrijding voor oranje waarschuwing</label>
+                            <input type="number" class="form-control" id="orangeThreshold" value="5">
+                        </div>
+                        <div class="mb-3">
+                            <label for="redThreshold" class="form-label">Aantal dagen overschrijding voor rode waarschuwing</label>
+                            <input type="number" class="form-control" id="redThreshold" value="10">
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="enableWarnings" checked>
+                                <label class="form-check-label" for="enableWarnings">
+                                    Waarschuwingen aanzetten
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Configuratie opslaan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rapportage & Export Pagina -->
+    <div id="reportPage" class="page d-none">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Rapportage</a>
+                <div class="navbar-nav ms-auto">
+                    <button class="btn btn-outline-light btn-sm" onclick="showDashboard()">Terug</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid mt-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3>Overzicht per maand</h3>
+                        <button class="btn btn-primary" onclick="exportData()">Exporteren</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Maand</th>
+                                    <th class="text-center">Totaal ingeplande dagen</th>
+                                    <th class="text-center">Totaal beschikbare dagen</th>
+                                    <th class="text-center">Verschil</th>
+                                    <th class="text-center">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reportRows">
+                                <!-- Rapportage data wordt hier dynamisch toegevoegd -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
