@@ -35,8 +35,7 @@ function setupEventListeners() {
     // Config form
     document.getElementById('configForm').addEventListener('submit', handleConfigSave);
     
-    // Month/Year selectors
-    document.getElementById('monthSelect').addEventListener('change', updateDashboard);
+    // Year selector
     document.getElementById('yearSelect').addEventListener('change', updateDashboard);
 }
 
@@ -134,9 +133,9 @@ function showProjectDetail(projectId) {
     // Show/hide edit button based on permissions
     const editBtn = document.getElementById('editProjectManagerBtn');
     if (editBtn) {
-        const canEdit = canEditProject(project);
-        console.log('Project:', project.name, 'Can edit:', canEdit, 'User role:', currentUser.role);
-        editBtn.style.display = canEdit ? 'inline-block' : 'none';
+        const canEditManager = canEditProjectManager(project);
+        console.log('Project:', project.name, 'Can edit manager:', canEditManager, 'User role:', currentUser.role);
+        editBtn.style.display = canEditManager ? 'inline-block' : 'none';
     }
     
     updateProjectDetail(project);
@@ -176,13 +175,18 @@ function getCurrentProjectId() {
 }
 
 function canEditProject(project) {
-    // Teammanagers kunnen alles bewerken
+    // Teammanagers kunnen alles bewerken inclusief projectmanager wijzigen
     if (currentUser.role === 'teammanager') return true;
     
-    // Projectmanagers kunnen alleen hun eigen projecten bewerken
+    // Projectmanagers kunnen hun eigen projecten bewerken, maar NIET de projectmanager wijzigen
     if (currentUser.role === 'projectmanager' && project.projectManager === currentUser.username) return true;
     
     return false;
+}
+
+function canEditProjectManager(project) {
+    // Alleen teammanagers kunnen de projectmanager wijzigen
+    return currentUser.role === 'teammanager';
 }
 
 // Dashboard functies
@@ -191,12 +195,10 @@ function updateDashboard() {
     
     document.getElementById('userRole').textContent = `${currentUser.username} (${currentUser.role})`;
     
-    const monthSelect = document.getElementById('monthSelect');
     const yearSelect = document.getElementById('yearSelect');
     
-    // Set current month and year
+    // Set current year
     const now = new Date();
-    monthSelect.value = now.getMonth() + 1;
     yearSelect.value = now.getFullYear();
     
     renderProjectTable();
@@ -289,12 +291,13 @@ function updateProjectDetail(project) {
     
     if (project.employees && project.employees.length > 0) {
         project.employees.forEach((employee, index) => {
+            const isOverLimit = employee.days > 22;
             const row = document.createElement('tr');
             row.className = 'employee-row';
             row.innerHTML = `
                 <td>${employee.name}</td>
                 <td class="text-center">
-                    <input type="number" value="${employee.days}" min="0" onchange="updateEmployeeDays('${project.id}', ${index}, this.value)" ${!canEdit ? 'disabled' : ''}>
+                    <input type="number" value="${employee.days}" min="0" onchange="updateEmployeeDays('${project.id}', ${index}, this.value)" ${!canEdit ? 'disabled' : ''} class="${isOverLimit ? 'employee-days-overlimit' : ''}">
                 </td>
                 <td>
                     <input type="text" value="${employee.notes || ''}" placeholder="Opmerking" onchange="updateEmployeeNotes('${project.id}', ${index}, this.value)">
@@ -344,6 +347,8 @@ function updateEmployeeDays(projectId, employeeIndex, value) {
     if (project && project.employees && project.employees[employeeIndex]) {
         project.employees[employeeIndex].days = parseInt(value) || 0;
         saveData();
+        // Refresh the project detail to update the styling
+        updateProjectDetail(project);
     }
 }
 
