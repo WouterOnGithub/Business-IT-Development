@@ -101,35 +101,35 @@
                                 </tr>
                                 <tr>
                                     <td><strong>Totaal beschikbare werkdagen</strong></td>
-                                    <td class="text-center">22</td>
-                                    <td class="text-center">20</td>
-                                    <td class="text-center">21</td>
-                                    <td class="text-center">22</td>
-                                    <td class="text-center">20</td>
-                                    <td class="text-center">22</td>
-                                    <td class="text-center">21</td>
-                                    <td class="text-center">22</td>
-                                    <td class="text-center">21</td>
-                                    <td class="text-center">23</td>
-                                    <td class="text-center">21</td>
-                                    <td class="text-center">20</td>
-                                    <td class="text-center">255</td>
+                                    <td class="text-center"><input type="number" id="available_jan" value="22" min="0" max="31" class="form-control form-control-sm" onchange="updateAvailableDays('jan', this.value)" disabled></td>
+                                    <td class="text-center"><input type="number" id="available_feb" value="20" min="0" max="29" class="form-control form-control-sm" onchange="updateAvailableDays('feb', this.value)" disabled></td>
+                                    <td class="text-center"><input type="number" id="available_mar" value="22" min="0" max="31" class="form-control form-control-sm" onchange="updateAvailableDays('mar', this.value)" disabled></td>
+                                    <td class="text-center"><input type="number" id="available_apr" value="21" min="0" max="30" class="form-control form-control-sm" onchange="updateAvailableDays('apr', this.value)" disabled></td>
+                                    <td class="text-center"><input type="number" id="available_may" value="18" min="0" max="31" class="form-control form-control-sm" onchange="updateAvailableDays('may', this.value)" disabled></td>
+                                    <td class="text-center"><input type="number" id="available_jun" value="22" min="0" max="30" class="form-control form-control-sm" onchange="updateAvailableDays('jun', this.value)" disabled></td>
+                                    <td class="text-center"><input type="number" id="available_jul" value="22" min="0" max="31" class="form-control form-control-sm" onchange="updateAvailableDays('jul', this.value)" disabled></td>
+                                    <td class="text-center"><input type="number" id="available_aug" value="22" min="0" max="31" class="form-control form-control-sm" onchange="updateAvailableDays('aug', this.value)" disabled></td>
+                                    <td class="text-center"><input type="number" id="available_sep" value="21" min="0" max="30" class="form-control form-control-sm" onchange="updateAvailableDays('sep', this.value)" disabled></td>
+                                    <td class="text-center"><input type="number" id="available_oct" value="22" min="0" max="31" class="form-control form-control-sm" onchange="updateAvailableDays('oct', this.value)" disabled></td>
+                                    <td class="text-center"><input type="number" id="available_nov" value="22" min="0" max="30" class="form-control form-control-sm" onchange="updateAvailableDays('nov', this.value)" disabled></td>
+                                    <td class="text-center"><input type="number" id="available_dec" value="18" min="0" max="31" class="form-control form-control-sm" onchange="updateAvailableDays('dec', this.value)" disabled></td>
+                                    <td class="text-center" id="totalAvailable">260</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Aantal feestdagen</strong></td>
-                                    <td class="text-center">2</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">2</td>
-                                    <td class="text-center">1</td>
-                                    <td class="text-center">2</td>
-                                    <td class="text-center">1</td>
-                                    <td class="text-center">2</td>
-                                    <td class="text-center">1</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">1</td>
-                                    <td class="text-center">2</td>
-                                    <td class="text-center">2</td>
-                                    <td class="text-center">16</td>
+                                    <td class="text-center"><input type="number" id="holidays_jan" value="1" min="0" max="10" class="form-control form-control-sm" onchange="updateHolidays('jan', this.value)" disabled></td>
+                                    <td class="text-center"><input type="number" id="holidays_feb" value="0" min="0" max="10" class="form-control form-control-sm" onchange="updateHolidays('feb', this.value)" disabled></td>
+                                    <td class="text-center"><input type="number" id="holidays_mar" value="2" min="0" max="10" class="form-control form-control-sm" onchange="updateHolidays('mar', this.value)" disabled></td>
+                                    <td class="text-center"><input type="number" id="holidays_apr" value="1" min="0" max="10" class="form-control form-control-sm" onchange="updateHolidays('apr', this.value)" disabled></td>
+                                    <td class="text-center"><input type="number" id="holidays_may" value="2" min="0" max="10" class="form-control form-control-sm" onchange="updateHolidays('may', this.value)" disabled></td>
+                                    <td class="text-center"><input type="number" id="holidays_jun" value="1" min="0" max="10" class="form-control form-control-sm" onchange="updateHolidays('jun', this.value)" disabled></td>
+                                    <td class="text-center"><input type="number" id="holidays_jul" value="1" min="0" max="10" class="form-control form-control-sm" onchange="updateHolidays('jul', this.value)" disabled></td>
+                                    <td class="text-center"><input type="number" id="holidays_aug" value="1" min="0" max="10" class="form-control form-control-sm" onchange="updateHolidays('aug', this.value)" disabled></td>
+                                    <td class="text-center"><input type="number" id="holidays_sep" value="0" min="0" max="10" class="form-control form-control-sm" onchange="updateHolidays('sep', this.value)" disabled></td>
+                                    <td class="text-center"><input type="number" id="holidays_oct" value="1" min="0" max="10" class="form-control form-control-sm" onchange="updateHolidays('oct', this.value)" disabled></td>
+                                    <td class="text-center"><input type="number" id="holidays_nov" value="2" min="0" max="10" class="form-control form-control-sm" onchange="updateHolidays('nov', this.value)" disabled></td>
+                                    <td class="text-center"><input type="number" id="holidays_dec" value="2" min="0" max="10" class="form-control form-control-sm" onchange="updateHolidays('dec', this.value)" disabled></td>
+                                    <td class="text-center" id="totalHolidays">14</td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -200,7 +200,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <button class="btn btn-primary mt-3" onclick="addEmployee()">Medewerker toevoegen</button>
+                    <button class="btn btn-primary mt-3" id="addEmployeeBtn" onclick="addEmployee()">Medewerker toevoegen</button>
                     <button class="btn btn-secondary mt-3" onclick="showDashboard()">Terug naar dashboard</button>
                 </div>
             </div>
@@ -269,7 +269,6 @@
                                     <th class="text-center">Prognose factureerbare dagen</th>
                                     <th class="text-center">Huidig ingepland</th>
                                     <th class="text-center">Status</th>
-                                    <th class="text-center">Acties</th>
                                 </tr>
                             </thead>
                             <tbody id="forecastRows">
@@ -347,7 +346,8 @@
                                     <th>Maand</th>
                                     <th class="text-center">Totaal ingeplande dagen</th>
                                     <th class="text-center">Totaal beschikbare dagen</th>
-                                    <th class="text-center">Verschil</th>
+                                    <th class="text-center">Gewerkte dagen</th>
+                                    <th class="text-center">Verschil (gepland - gewerkt)</th>
                                     <th class="text-center">Status</th>
                                 </tr>
                             </thead>
