@@ -228,6 +228,7 @@ function loadAvailableDaysAndHolidays() {
         if (holidayInput) {
             const value = holidays[month] || getDefaultHolidays(month);
             holidayInput.value = value;
+            holidayInput.disabled = true; // Zorg dat holidays altijd disabled blijven
         }
     });
     
@@ -389,10 +390,8 @@ function enableEditableFields() {
         
         months.forEach(month => {
             const availableInput = document.getElementById(`available_${month}`);
-            const holidayInput = document.getElementById(`holidays_${month}`);
-            
             if (availableInput) availableInput.disabled = false;
-            if (holidayInput) holidayInput.disabled = false;
+            // Feestdagen blijven altijd disabled (niet bewerkbaar)
         });
     }
 }
